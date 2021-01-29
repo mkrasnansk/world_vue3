@@ -26,14 +26,13 @@
 
 <script>
 // @ is an alias to /src
-import EventCard from "@/components/EventCard.vue";
-import EventService from '@/services/EventService.js';
-import{watchEffect} from 'vue';
-
+import EventCard from '@/components/EventCard.vue'
+import EventService from '@/services/EventService.js'
+import { watchEffect } from 'vue'
 
 export default {
-  name: "EventList",
-  props:['page'],
+  name: 'EventList',
+  props: ['page'],
   components: {
     EventCard
   },
@@ -43,34 +42,33 @@ export default {
       totalEvents: 0
     }
   },
-  created(){
+  created() {
     // EventService.getEvents()
-     //       .then(response => {
-     //        this.events = response.data
-     //       })
-     //       .catch(err => {
-     //         console.error(err);
-     //       })
-   watchEffect(()=>{
-     this.events = null
-     EventService.getEvents(2, this.page)
-      .then(response => {
-        this.events = response.data
-        this.totalEvents = response.headers['x-total-count']
-      })
-      .catch(err => {
-        console.log(err);
-      })
-   })
-
+    //       .then(response => {
+    //        this.events = response.data
+    //       })
+    //       .catch(err => {
+    //         console.error(err);
+    //       })
+    watchEffect(() => {
+      this.events = null
+      EventService.getEvents(2, this.page)
+        .then(response => {
+          this.events = response.data
+          this.totalEvents = response.headers['x-total-count']
+        })
+        .catch(() => {
+          this.$router.push({ name: 'NetworkError' })
+        })
+    })
   },
-  computed:{
-    hasNextPage(){
+  computed: {
+    hasNextPage() {
       var totalPages = Math.ceil(this.totalEvents / 2)
       return this.page < totalPages
-      }
     }
-};
+  }
+}
 </script>
 
 <style scoped>
