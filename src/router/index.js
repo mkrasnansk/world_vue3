@@ -4,10 +4,13 @@ import EventDetails from "../views/EventDetails.vue";
 import About from '../views/About.vue';
 
 const routes = [
+
   {
     path: "/",
     name: "EventList",
-    component: EventList
+    component: EventList,
+    props: route => ({page: parseInt(route.query.page) || 1})
+
   },
   {
     path: "/event/:id",
@@ -18,7 +21,8 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    component: About
+    component: About,
+    props:{showExtra: true}
   }
 ];
 
